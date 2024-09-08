@@ -1,21 +1,19 @@
+
 import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-
 import Posts from "../../components/common/Posts";
 import ProfileHeaderSkeleton from "../../components/skeletons/ProfileHeaderSkeleton";
 import EditProfileModal from "./EditProfileModal";
-
 import { POSTS } from "../../utils/db/dummy";
-
 import { FaArrowLeft } from "react-icons/fa6";
 import { IoCalendarOutline } from "react-icons/io5";
 import { FaLink } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import { useQuery } from "@tanstack/react-query";
 import { formatMemberSinceDate } from "../../utils/date";
-
 import useFollow from "../../hooks/useFollow";
 import useUpdateUserProfile from "../../hooks/useUpdateUserProfile";
+import axios from "axios"; // Import axios
 
 const ProfilePage = () => {
 	const [coverImg, setCoverImg] = useState(null);
@@ -36,17 +34,13 @@ const ProfilePage = () => {
 		refetch,
 		isRefetching,
 	} = useQuery({
-		queryKey: ["userProfile"],
+		queryKey: ["userProfile", username],
 		queryFn: async () => {
 			try {
-				const res = await fetch(`/api/users/profile/${username}`);
-				const data = await res.json();
-				if (!res.ok) {
-					throw new Error(data.error || "Something went wrong");
-				}
+				const { data } = await axios.get(`/api/users/profile/${username}`);
 				return data;
 			} catch (error) {
-				throw new Error(error);
+				throw new Error(error.response?.data?.error || "Something went wrong");
 			}
 		},
 	});
@@ -69,13 +63,19 @@ const ProfilePage = () => {
 		}
 	};
 
+	const handlePayNow = () => {
+		alert('Redirecting to payment page...');
+		
+		// You can replace the alert with actual payment gateway integration here.
+	};
+
 	useEffect(() => {
 		refetch();
 	}, [username, refetch]);
 
 	return (
 		<>
-			<div className='flex-[4_4_0]  border-r border-gray-700 min-h-screen '>
+			<div className='flex-[4_4_0] border-r border-gray-700 min-h-screen'>
 				{/* HEADER */}
 				{(isLoading || isRefetching) && <ProfileHeaderSkeleton />}
 				{!isLoading && !isRefetching && !user && <p className='text-center text-lg mt-4'>User not found</p>}
@@ -85,6 +85,7 @@ const ProfilePage = () => {
 							<div className='flex gap-10 px-4 py-2 items-center'>
 								<Link to='/'>
 									<FaArrowLeft className='w-4 h-4' />
+									
 								</Link>
 								<div className='flex flex-col'>
 									<p className='font-bold text-lg'>{user?.fullName}</p>
@@ -160,6 +161,13 @@ const ProfilePage = () => {
 										{isUpdatingProfile ? "Updating..." : "Update"}
 									</button>
 								)}
+								{/* Pay Now Button */}
+								<button
+									className='btn btn-primary rounded-full btn-sm text-white px-4 ml-2'
+									onClick={handlePayNow}
+								>
+									Pay Now
+								</button>
 							</div>
 
 							<div className='flex flex-col gap-4 mt-14 px-4'>
@@ -172,18 +180,15 @@ const ProfilePage = () => {
 								<div className='flex gap-2 flex-wrap'>
 									{user?.link && (
 										<div className='flex gap-1 items-center '>
-											<>
-												<FaLink className='w-3 h-3 text-slate-500' />
-												<a
-													href='https://youtube.com/@asaprogrammer_'
-													target='_blank'
-													rel='noreferrer'
-													className='text-sm text-blue-500 hover:underline'
-												>
-													{/* Updated this after recording the video. I forgot to update this while recording, sorry, thx. */}
-													{user?.link}
-												</a>
-											</>
+											<FaLink className='w-3 h-3 text-slate-500' />
+											<a
+												href={user?.link}
+												target='_blank'
+												rel='noreferrer'
+												className='text-sm text-blue-500 hover:underline'
+											>
+												{user?.link}
+											</a>
 										</div>
 									)}
 									<div className='flex gap-2 items-center'>
@@ -218,7 +223,7 @@ const ProfilePage = () => {
 								>
 									Likes
 									{feedType === "likes" && (
-										<div className='absolute bottom-0 w-10  h-1 rounded-full bg-primary' />
+										<div className='absolute bottom-0 w-10 h-1 rounded-full bg-primary' />
 									)}
 								</div>
 							</div>
@@ -231,4 +236,5 @@ const ProfilePage = () => {
 		</>
 	);
 };
+
 export default ProfilePage;
