@@ -26,7 +26,7 @@ const port =5000|| 3000 ;
 app.use(express.urlencoded({ extended: true })); // to parse form data(urlencoded)
 app.use(cookieParser());
 app.use(cors({
-	origin: ["http://localhost:3000"],
+	origin: ["https://new-repo-1frontend.onrender.com"],
 }))
 app.use("/api/auth",authRoute);
 app.use("/api/users",userRoute);
