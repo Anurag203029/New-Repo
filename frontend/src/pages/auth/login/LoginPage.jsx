@@ -129,7 +129,7 @@ const LoginPage = () => {
 	} = useMutation({
 		mutationFn: async ({ username, password }) => {
 			try {
-				const { data } = await axios.post("/api/auth/login", {
+				const { data } = await axios.post("https://new-repo-q8ew.onrender.com/api/auth/login", {
 					username,
 					password,
 				});

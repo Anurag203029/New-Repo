@@ -4,7 +4,7 @@ import userRoute from "./routes/user.routes.js";
 import postRoute from "./routes/post.Routes.js";
 import notificationRoutes from "./routes/notification.route.js";
 
-
+import cors from "cors"
 import {v2 as cloudinary} from "cloudinary";
 import dotenv from "dotenv";
 import connectMongoDB from "./db/connect.mongooes.js";
@@ -25,7 +25,9 @@ const port =5000|| 3000 ;
 
 app.use(express.urlencoded({ extended: true })); // to parse form data(urlencoded)
 app.use(cookieParser());
-
+app.use(cors({
+	origin: ["http://localhost:3000"],
+}))
 app.use("/api/auth",authRoute);
 app.use("/api/users",userRoute);
 app.use("/api/posts",postRoute);

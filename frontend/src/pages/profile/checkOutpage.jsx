@@ -23,7 +23,7 @@ const CheckoutForm = () => {
       toast.error(error.message);
     } else {
       try {
-        const { data } = await axios.post('/api/payment', {
+        const { data } = await axios.post('https://new-repo-q8ew.onrender.com/api/payment', {
           payment_method_id: paymentMethod.id,
         });
 

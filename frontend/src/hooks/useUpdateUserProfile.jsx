@@ -49,7 +49,7 @@ const useUpdateUserProfile = () => {
   const { mutateAsync: updateProfile, isPending: isUpdatingProfile } = useMutation({
     mutationFn: async (formData) => {
       try {
-        const res = await axios.post("/api/users/update", formData);
+        const res = await axios.post("https://new-repo-q8ew.onrender.com/api/users/update", formData);
         if (res.status !== 200) {
           throw new Error(res.data.error || "Something went wrong");
         }

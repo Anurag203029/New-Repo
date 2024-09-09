@@ -132,7 +132,7 @@ const CreatePost = () => {
 	} = useMutation({
 		mutationFn: async ({ text, img }) => {
 			try {
-				const res = await axios.post("/api/posts/create", {
+				const res = await axios.post("https://new-repo-q8ew.onrender.com/api/posts/create", {
 					text,
 					img,
 				});

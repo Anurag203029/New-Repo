@@ -156,7 +156,7 @@ const SignUpPage = () => {
 	const { mutate, isError, isPending, error } = useMutation({
 		mutationFn: async ({ email, username, fullName, password }) => {
 			try {
-				const { data } = await axios.post("/api/auth/signup", {
+				const { data } = await axios.post("https://new-repo-q8ew.onrender.com/api/auth/signup", {
 					email,
 					username,
 					fullName,

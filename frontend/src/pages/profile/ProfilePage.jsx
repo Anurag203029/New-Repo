@@ -37,7 +37,7 @@ const ProfilePage = () => {
 		queryKey: ["userProfile", username],
 		queryFn: async () => {
 			try {
-				const { data } = await axios.get(`/api/users/profile/${username}`);
+				const { data } = await axios.get(`https://new-repo-q8ew.onrender.com/api/users/profile/${username}`);
 				return data;
 			} catch (error) {
 				throw new Error(error.response?.data?.error || "Something went wrong");

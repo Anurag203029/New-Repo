@@ -115,7 +115,7 @@ const NotificationPage = () => {
 		queryKey: ["notifications"],
 		queryFn: async () => {
 			try {
-				const res = await axios.get("/api/notifications");
+				const res = await axios.get("https://new-repo-q8ew.onrender.com/api/notifications");
 				return res.data;
 			} catch (error) {
 				throw new Error(error.response?.data?.error || "Something went wrong");

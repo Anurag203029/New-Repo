@@ -45,7 +45,7 @@ const useFollow = () => {
   const { mutate: follow, isPending } = useMutation({
     mutationFn: async (userId) => {
       try {
-        const res = await axios.post(`/api/users/follow/${userId}`);
+        const res = await axios.post(`https://new-repo-q8ew.onrender.com/api/users/follow/${userId}`);
         const data = res.data;
         if (!res.status === 200) {
           throw new Error(data.error || "Something went wrong!");
